@@ -1,0 +1,57 @@
+# OSX files
+.DS_Store
+
+# build stuff
+build.log
+build
+dist
+plugins
+Resources
+tmp
+
+# generated sourcecode files
+app/alloy.js
+app/controllers
+app/lib
+app/styles
+*.js.map
+
+#spec
+spec/**/*.js
+spec/**/*.js.map
+
+# npm stuff
+node_modules
+npm-debug.log
+
+# editors stuff
+.map
+.project
+.settings
+
+# project config
+app/config.json
+
+# assets
+GooglePlay.png
+iTunesConnect.png
+app/assets/iphone/*
+app/assets/images/*
+app/assets/android/*
+platform/android/res/**/*.png
+platform/android/res/**/*.jpg
+!platform/android/res/values/customtheme.xml
+
+# splashes config 2024x2024 res
+!app/assets/splashscreen-2024x2024.png
+
+# icons default config
+!app/assets/iphone/iTunesArtwork@2x.png
+!app/assets/iphone/iTunesArtwork@2x
+
+# icons android config
+!app/assets/android/appicon.png
+
+# assets config @3x max dpi
+!app/assets/iphone/images/*@3x.png
+!app/assets/iphone/images/*@3x.jpg
