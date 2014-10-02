@@ -6,6 +6,7 @@ This is an alloy bootstrap with
  * [LTSS](https://github.com/dbankier/ltss) an Alloy tss pre-processor inspired by less
  * [TiCons](https://github.com/fokkezb/ticons-cli) to generate icons and splash screens
  * [TiShadow](https://github.com/dbankier/TiShadow) run tests or execute code snippets live across all running iOS and Android devices
+ * @TODO [TiStealth](https://github.com/fokkezb/ti-stealth) CLI and CommonJS module to replace console log calls with NOOPs which can later be restored
 
 
 ## Prerequisites
@@ -93,12 +94,14 @@ $ npm install
 ### grunt clean task
 
  * If you use iOS 3@x high resolution, add this lines (by default):
-    ```sh
+
+    ```
     "!app/assets/iphone/images/*@3x.png",
     "!app/assets/iphone/images/*@3x.jpg",
     ```
  * If you use xxxhdpi default high resolution, add this lines instead:
-    ```sh
+
+    ```
     "!app/assets/android/images/xxxhdpi/*.png",
     "!app/assets/android/images/xxxhdpi/*.jpg",
     ```
