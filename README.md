@@ -6,7 +6,7 @@ This is an alloy bootstrap with
  * [LTSS](https://github.com/dbankier/ltss) an Alloy tss pre-processor inspired by less
  * [TiCons](https://github.com/fokkezb/ticons-cli) to generate icons and splash screens
  * [TiShadow](https://github.com/dbankier/TiShadow) run tests or execute code snippets live across all running iOS and Android devices
- * @TODO [TiStealth](https://github.com/fokkezb/ti-stealth) CLI and CommonJS module to replace console log calls with NOOPs which can later be restored
+ * [TiStealth](https://github.com/fokkezb/ti-stealth), a module to replace console log calls with NOOPs which can later be restored
 
 
 ## Prerequisites
