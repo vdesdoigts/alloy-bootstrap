@@ -19,7 +19,13 @@ module.exports = function(grunt) {
                 src: [
                     "iTunesConnect.png",
                     "GooglePlay.png",
-                    "platform/**",
+                    "GooglePlayFeature.png",
+                    "platform/android/res/drawable-hdpi",
+                    "platform/android/res/drawable-ldpi",
+                    "platform/android/res/drawable-mdpi",
+                    "platform/android/res/drawable-xhdpi",
+                    "platform/android/res/drawable-xxhdpi",
+                    "platform/android/res/drawable-xxxhdpi",
                     "app/assets/images",
                     "app/assets/iphone/**/*.png", "app/assets/iphone/**/*.jpg",
                     "!app/assets/iphone/images/*@3x.png", "!app/assets/iphone/images/*@3x.jpg",
@@ -47,13 +53,13 @@ module.exports = function(grunt) {
                 }]
             }
         },
-        ltss: {
+        stss: {
             compile: {
                 files: [{
                     expand: true,
-                    cwd: 'app/ltss',
-                    src: ['**/*.ltss','!**/includes/**'],
+                    src: ['**/*.stss','!**/_*.stss'],
                     dest: 'app/styles',
+                    cwd: 'app/stss',
                     ext: '.tss'
                 }]
             }
@@ -76,7 +82,7 @@ module.exports = function(grunt) {
                 command: "titanium build -p ios -S 7.1 -Y ipad"
             },
             icons: {
-                command: "ticons icons"
+                command: "ticons -a icons"
             },
             splashes: {
                 command: "ticons -a splashes `pwd`/app/assets/splash-2024x2024.jpg --no-nine"
@@ -133,15 +139,15 @@ module.exports = function(grunt) {
                 nospawn: false
             },
             ios: {
-                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.ltss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
+                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.stss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
                 tasks: ['build','tishadow:run_ios']
             },
             android: {
-                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.ltss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
+                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.stss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
                 tasks: ['build','tishadow:run_android']
             },
             all: {
-                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.ltss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
+                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.stss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
                 tasks: ['build','tishadow:run']
             }
         },
@@ -150,7 +156,7 @@ module.exports = function(grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     grunt.registerTask('default', 'build');
-    grunt.registerTask('build', ['coffee', 'ltss']);
+    grunt.registerTask('build', ['coffee', 'stss']);
     grunt.registerTask('ticons', ['shell:icons', 'shell:splashes', 'shell:assets']);
 
     grunt.registerTask('dev_ios', ['build','tishadow:run_ios','watch:ios']);
@@ -165,9 +171,9 @@ module.exports = function(grunt) {
     // only modify changed file
     grunt.event.on('watch', function(action, filepath) {
         var o = {};
-        if (filepath.match(/.ltss$/) && filepath.indexOf("includes") === -1){
-            o[filepath.replace(".ltss",".tss")] = [filepath];
-            grunt.config.set(['ltss', 'compile', 'files'],o);
+        if (filepath.match(/.stss$/) && filepath.indexOf("includes") === -1){
+            o[filepath.replace(".stss",".tss")] = [filepath];
+            grunt.config.set(['stss', 'compile', 'files'],o);
         }
     });
 };

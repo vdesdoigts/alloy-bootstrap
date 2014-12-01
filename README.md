@@ -3,7 +3,7 @@
 
 This is an alloy bootstrap with
  * [CoffeeScript](http://coffeescript.org/) is an attempt to expose the good parts of JavaScript in a simple way
- * [LTSS](https://github.com/dbankier/ltss) an Alloy tss pre-processor inspired by less
+ * [STSS](https://github.com/RonaldTreur/STSS) an Alloy tss pre-processor using SCSS (Sassy CSS) syntax.
  * [TiCons](https://github.com/fokkezb/ticons-cli) to generate icons and splash screens
  * [TiShadow](https://github.com/dbankier/TiShadow) run tests or execute code snippets live across all running iOS and Android devices
  * [TiStealth](https://github.com/fokkezb/ti-stealth), a module to replace console log calls with NOOPs which can later be restored
@@ -28,11 +28,34 @@ This is an alloy bootstrap with
 $ git clone git@github.com:vdesdoigts/alloy-bootstrap.git alloy-bootstrap
 $ cd alloy-bootstrap
 $ npm install
+$ alloy install plugin
 ```
+
+## Check your configuration
+
+ * Titanium sdk version, 3.4.1.GA at the moment
+```sh
+$ titanium sdk
+```
+If you aren't on 3.4.1.GA
+```sh
+$ titanium sdk install 3.4.1.GA
+$ titanium sdk select 3.4.1.GA
+```
+
+ * Alloy version
+```sh
+$ alloy -v
+```
+We use the last version og Alloy at the moment, 1.5.1
+```sh
+[sudo] npm install -g alloy
+```
+
 
 ## Developement compilation commands
 
- * `grunt` - compiles the coffee and ltss files
+ * `grunt` - compiles the coffee and stss files
  * `grunt ticons` - compiles icons, splashes and assets
  * `grunt dev_all` - compiles everything and cross-pushes to TiShadow android and iOS
  * `grunt [dev_android|dev_ios]` - auto compile and pushes with TiShadow
@@ -53,7 +76,7 @@ $ npm install
     * hide ActionBar
     * add translucent property
 
-## TiCons 0.7.0
+## TiCons 0.11.0
 
  * Icons
 
@@ -77,7 +100,7 @@ $ npm install
 
     * Custom splash
     $ ticons -a splashes `pwd`/app/assets/splash-2024x2024.jpg --no-nine
-    You can provide a 2024x2024 pixels image to create your splashes. Be careful to center your logo.
+    You can provide a 2024x2024 pixels image to create your splashes. Be careful to center your logo. Since 0.10.0 if you give --width <width> and --height <height> then TiCons will try not to crop that area, taken from the centre of the input image.
 
 
  * Assets
