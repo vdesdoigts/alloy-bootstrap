@@ -1,5 +1,5 @@
 task("post:compile", function(event, logger) {
-  if (event.alloyConfig.deployType === 'production') {
+  if (event.alloyConfig.deploytype === 'production') {
     require('ti-stealth').enable(event.dir.resources, {
       notLevels: []
     });
