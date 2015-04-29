@@ -1,69 +1,69 @@
 module.exports = function(grunt) {
+    var targetPlatform = grunt.option("p") || 'ios';
+
     grunt.initConfig({
+        babel : {
+            options: {
+                sourceMap: false
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    src: ['**/*.es6'],
+                    dest: 'app',
+                    cwd: 'src',
+                    ext: ['.js']
+                }]
+            }
+        },
         clean: {
             project: {
                 src: [
-                    "app/alloy.js",
-                    "app/alloy.js.map",
-                    "app/coffee/**/*.js",
-                    "app/coffee/**/*.js.map",
-                    "app/controllers/**",
-                    "app/controllers/**",
-                    "app/lib/**",
-                    "app/styles/**",
-                    "build/",
-                    "Resources/"
+                    'app/', 'Resources/', 'build/',
+                    'platform/*', '!platform/android', 'platform/android/*', '!platform/android/res', 'platform/android/res/*', '!platform/android/res/values',
+                    'iTunesConnect.png', 'GooglePlay.png', 'GooglePlayFeature.png', 'MarketplaceArtwork.png'
                 ]
+            }
+        },
+        concurrent: {
+            options: {
+                logConcurrentOutput: true,
+            },
+            run: {
+                tasks: ['tishadow:run', 'watch:styles', 'watch:javascripts', 'watch:assets']
+            },
+            spec: {
+                tasks: ['tishadow:spec', 'watch:views','watch:styles', 'watch:javascripts', 'watch:assets']
+            }
+        },
+        copy: {
+            alloy: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: 'src/',
+                    dest: 'app/',
+                    src: [
+                        '**',
+                        'widgets/**',
+                        '!config.json.dist',
+                        '!assets/images/**',
+                        '!**/*.es6',
+                        '!**/*.stss'
+                    ]
+                }]
             },
             assets: {
-                src: [
-                    "iTunesConnect.png",
-                    "GooglePlay.png",
-                    "GooglePlayFeature.png",
-                    "platform/android/res/drawable-hdpi",
-                    "platform/android/res/drawable-ldpi",
-                    "platform/android/res/drawable-mdpi",
-                    "platform/android/res/drawable-xhdpi",
-                    "platform/android/res/drawable-xxhdpi",
-                    "platform/android/res/drawable-xxxhdpi",
-                    "app/assets/images",
-                    "app/assets/iphone/**/*.png", "app/assets/iphone/**/*.jpg",
-                    "!app/assets/iphone/images/*@3x.png", "!app/assets/iphone/images/*@3x.jpg",
-                    "app/assets/android/images", "app/assets/android/**/*.png", "app/assets/android/**/*.jpg",
-                    "!app/assets/android", "!app/assets/android/appicon.png",
-                    "app/assets/iphone/iTunesArtwork",
-                    "!app/assets/iphone/iTunesArtwork@2x",
-                    "!app/assets/android/fonts/*",
-                    "!app/assets/iphone/fonts/*"
-                ]
-            }
-        },
-        coffee: {
-            options: {
-                bare: true,
-                sourceMap: false
-            },
-            compile: {
                 files: [{
                     expand: true,
-                    src: ["**/*.coffee"],
-                    dest: "app/",
-                    cwd: "app/coffee",
-                    ext: ".js"
+                    dot: true,
+                    cwd: 'src/assets/images/xxxhdpi/',
+                    dest: 'app/assets/android/images/res-xxxhdpi/',
+                    src: [ '**' ]
                 }]
             }
         },
-        stss: {
-            compile: {
-                files: [{
-                    expand: true,
-                    src: ['**/*.stss','!**/_*.stss'],
-                    dest: 'app/styles',
-                    cwd: 'app/stss',
-                    ext: '.tss'
-                }]
-            }
-        },
+        // titanium-cli commands in absence of a plugin
         shell: {
             options: {
                 stdout: true,
@@ -82,52 +82,46 @@ module.exports = function(grunt) {
                 command: "titanium build -p ios -S 7.1 -Y ipad"
             },
             icons: {
-                command: "ticons -a icons"
+                command: "`pwd`/node_modules/ticons/cli.js -a icons `pwd`/src/assets/images/iTunesArtwork@2x.png"
             },
             splashes: {
-                command: "ticons -a splashes `pwd`/app/assets/splash-2024x2024.jpg --no-nine"
+                command: "`pwd`/node_modules/ticons/cli.js -a splashes `pwd`/src/assets/images/splash2208x2208.jpg --no-nine"
             },
             assets: {
-                command: "ticons -a assets"
+                command: "`pwd`/node_modules/ticons/cli.js -a assets --max-dpi xxxhdpi `pwd`/app/assets/android/images/res-xxxhdpi"
+            }
+        },
+        stss: {
+            compile: {
+                files: [{
+                    expand: true,
+                    src: ['**/*.stss','!**/_*.stss'],
+                    dest: 'app',
+                    cwd: 'src',
+                    ext: '.tss'
+                }],
             }
         },
         tishadow: {
             options: {
                 update: true,
-            },
-            run_android: {
-                command: 'run',
-                options: {
-                    locale: 'en',
-                    platform: 'android'
-                }
-            },
-            run_ios:{
-                command: 'run',
-                options: {
-                    locale: 'en',
-                    platform: 'ios'
-                }
+                watch: true
             },
             run: {
                 command: 'run',
                 options: {
-                    locale: 'en',
+                    platform: targetPlatform
                 }
             },
-            spec_android: {
+            spec: {
                 command: 'spec',
                 options: {
-                    update: false,
-                    platform: ['android'],
+                    platform: targetPlatform,
+                    update: false
                 }
             },
-            spec_ios:{
-                command: 'spec',
-                options: {
-                    update: false,
-                    platform: ['ios'],
-                }
+            server: {
+                command: 'server'
             },
             clear: {
                 command: 'clear',
@@ -136,44 +130,51 @@ module.exports = function(grunt) {
         },
         watch: {
             options: {
-                nospawn: false
+                nospawn: true
             },
-            ios: {
-                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.stss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
-                tasks: ['build','tishadow:run_ios']
+            styles: {
+                files: ['src/**/*.stss'],
+                tasks: ['stss']
             },
-            android: {
-                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.stss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
-                tasks: ['build','tishadow:run_android']
+            javascripts: {
+                files: ['src/**/*.es6'],
+                tasks: ['babel']
             },
-            all: {
-                files: ["tiapp.xml", "i18n/**", "app/config.json", "app/**/*.xml", "app/**/*.stss", "app/coffee/**/*.coffee", "app/widgets/**/*.js", "app/widgets/**/*.tss", "app/widgets/**/*.xml"],
-                tasks: ['build','tishadow:run']
+            assets: {
+                files: ['src/**', '!src/assets/images/**', '!src/**/*.es6', '!src/**/*.stss'],
+                tasks: ['copy:alloy']
             }
-        },
+        }
     });
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-
-    grunt.registerTask('default', 'build');
-    grunt.registerTask('build', ['coffee', 'stss']);
-    grunt.registerTask('ticons', ['shell:icons', 'shell:splashes', 'shell:assets']);
-
-    grunt.registerTask('dev_ios', ['build','tishadow:run_ios','watch:ios']);
-    grunt.registerTask('dev_android', ['build','tishadow:run_android','watch:android']);
-    grunt.registerTask('dev_all', ['build','tishadow:run','watch:all']);
-
-    // titanium cli tasks
-    ['iphone6','iphone7','ipad6','ipad7','appstore','adhoc','playstore'].forEach(function(target) {
-        grunt.registerTask(target, ['build','shell:'+target]);
-    });
+    grunt.registerTask('default', ['build', 'ticons']);
+    grunt.registerTask('ticons', ['copy:assets', 'shell:icons', 'shell:splashes', 'shell:assets']);
+    grunt.registerTask('assets', ['copy:assets', 'shell:assets']);
+    grunt.registerTask('build', ['copy:alloy','stss', 'babel']);
+    grunt.registerTask('dev', ['build','concurrent:run']);
+    grunt.registerTask('test', ['tishadow:clear','build','concurrent:spec']);
 
     // only modify changed file
     grunt.event.on('watch', function(action, filepath) {
         var o = {};
-        if (filepath.match(/.stss$/) && filepath.indexOf("includes") === -1){
-            o[filepath.replace(".stss",".tss")] = [filepath];
-            grunt.config.set(['stss', 'compile', 'files'],o);
+        if (filepath.match(/.es6/)) {
+            var target = filepath.replace(".es6",".js").replace("src/", "app/");
+            o[target] = [filepath];
+            grunt.config.set(['babel', 'dist', 'files'],o);
+        } else if (filepath.match(/.stss$/) && filepath.indexOf("includes") === -1) {
+            if (filepath.match(/\/_.*?\.stss/)) {
+                grunt.log.write("Partial modified, rewriting all styles");
+                grunt.task.run('stss');
+            } else {
+                var target = filepath.replace(".stss",".tss").replace("src/", "app/");
+                o[target] = [filepath];
+                grunt.config.set(['stss', 'compile', 'files'],o);
+            }
+        } else if (filepath.match(/^src/)) {
+            var target = filepath.replace("src/", "app/");
+            o[target] = [filepath];
+            grunt.config.set(['copy','alloy','files'],o);
         }
     });
 };

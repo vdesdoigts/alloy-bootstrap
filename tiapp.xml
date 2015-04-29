@@ -41,7 +41,7 @@
 		</plist>
 	</ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest android:installLocation="auto" android:versionCode="10" android:versionName="2.0.2">
+        <manifest android:installLocation="auto" android:versionCode="1" android:versionName="1.0.0">
             <application android:theme="@style/Theme.Bootstrap">
                 <activity android:configChanges="keyboardHidden|orientation" android:label="Bootstrap" android:name=".BootstrapActivity" android:theme="@style/Theme.Titanium">
                     <intent-filter>
@@ -53,7 +53,7 @@
                 <activity android:configChanges="keyboardHidden|orientation" android:name="org.appcelerator.titanium.TiTranslucentActivity" android:theme="@style/Theme.Bootstrap.Translucent" />
                 <activity android:configChanges="keyboardHidden|orientation" android:name="org.appcelerator.titanium.TiModalActivity" android:theme="@style/Theme.Bootstrap.Translucent" />
             </application>
-            <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="16" />
+            <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="21" />
             <uses-permission android:name="android.permission.SET_ORIENTATION" />
         </manifest>
     </android>
@@ -75,7 +75,7 @@
 		<target device="iphone">true</target>
 		<target device="mobileweb">false</target>
 	</deployment-targets>
-	<sdk-version>3.4.1.GA</sdk-version>
+	<sdk-version>3.5.1.GA</sdk-version>
 <plugins><plugin version="1.0">ti.alloy</plugin>
 </plugins>
 </ti:app>

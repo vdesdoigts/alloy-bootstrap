@@ -1,0 +1,15 @@
+// Base
+// -------------------------
+
+.size {
+    height: fill;
+}
+
+.vertical {
+    layout: vertical;
+    height: size;
+}
+
+.horizontal {
+    layout: horizontal;
+}

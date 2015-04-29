@@ -1,8 +1,10 @@
 # Alloy Bootstrap
-
+Inspired by [JAST](https://github.com/dbankier/JAST).
 
 This is an alloy bootstrap with
- * [CoffeeScript](http://coffeescript.org/) is an attempt to expose the good parts of JavaScript in a simple way
+ * [Alloy](http://projects.appcelerator.com/alloy/docs/Alloy-bootstrap/index.html) -
+   Appcelerator's own MVC Framework.
+ * [Babel](https://babeljs.io/) - to give us some ES6 support.
  * [STSS](https://github.com/RonaldTreur/STSS) an Alloy tss pre-processor using SCSS (Sassy CSS) syntax.
  * [TiCons](https://github.com/fokkezb/ticons-cli) to generate icons and splash screens
  * [TiShadow](https://github.com/dbankier/TiShadow) run tests or execute code snippets live across all running iOS and Android devices
@@ -13,13 +15,9 @@ This is an alloy bootstrap with
 
  * Do this:
 ```
- [sudo] npm install alloy tishadow grunt-cli
+ [sudo] npm install -g alloy tishadow grunt-cli
 ```
  * [Get started](http://tishadow.yydigital.com/getting%20started) with TiShadow
-```
- [sudo] npm install -g ticons
-```
- * [Get started](https://github.com/fokkezb/ticons-cli) with TiCons
 
 
 ## Installation
@@ -28,26 +26,32 @@ This is an alloy bootstrap with
 $ git clone git@github.com:vdesdoigts/alloy-bootstrap.git alloy-bootstrap
 $ cd alloy-bootstrap
 $ npm install
+$ grunt
 $ alloy install plugin
+$ tishadow config --boost
 ```
+
+**Note**: Don't pay attention to `Could not find the "app"-folder in working directory` when you run npm install
+
 
 ## Check your configuration
 
- * Titanium sdk version, 3.4.1.GA at the moment
+ * Titanium sdk version, 3.5.1.GA at the moment
 ```sh
 $ titanium sdk
 ```
-If you aren't on 3.4.1.GA
+If you aren't on 3.5.1.GA
 ```sh
-$ titanium sdk install 3.4.1.GA
-$ titanium sdk select 3.4.1.GA
+$ titanium sdk install 3.5.1.GA
+$ titanium sdk select 3.5.1.GA
 ```
+
 
  * Alloy version
 ```sh
 $ alloy -v
 ```
-We use the last version og Alloy at the moment, 1.5.1
+We use the last version og Alloy at the moment, 1.7.0
 ```sh
 [sudo] npm install -g alloy
 ```
@@ -55,79 +59,47 @@ We use the last version og Alloy at the moment, 1.5.1
 
 ## Developement compilation commands
 
- * `grunt` - compiles the coffee and stss files
- * `grunt ticons` - compiles icons, splashes and assets
- * `grunt dev_all` - compiles everything and cross-pushes to TiShadow android and iOS
- * `grunt [dev_android|dev_ios]` - auto compile and pushes with TiShadow
+ * `grunt` - compiles the stss and es6 files and copies all the assets from `src` to `app`
+ * `grunt dev [-p <platform>]` - auto compile and pushes on TiShadow app (`p` flag is optional)
+ * `grunt test [-p <plaform>]` - run specs  (`p` flag is optional)
  * `grunt clean` - deletes all generated files
+ * `grunt [iphone6|iphone7|ipad6|ipad7]`
 
-## Run on specifics devices
+**Note**: the `grunt dev` command will launch your application in a tishadow app, you need to built it before.
+All code changes will be selectively precompiled and pushed (live-reload).
 
- * `grunt shell:iphone6`
- * `grunt shell:iphone7`
- * `grunt shell:ipad6`
- * `grunt shell:ipad7`
+Please use the TiShadowApp in the repository with according modules and config for the App.
 
 
 ## Default configuration
- * TiCons assets - we use iOS 3@x high resolution intead of xxxhdpi android resolution
- * TiCons splashes - we use a 2024x2024 pixels image
+ * TiCons assets - we use xxxhdpi android resolution
+ * TiCons splashes - we use a 2208x2208 pixels image
  * Android custom theme at `platform/android/res/values/customtheme.xml`
     * hide ActionBar
     * add translucent property
 
-## TiCons 0.11.0
+
+## TiCons 0.12.1
 
  * Icons
 
-    * Default behavior
+    * Custom behavior
     $ ticons icons
-    `pwd`/app/assets/iphone/iTunesArtwork@2x
-    iTunesArtwork@2x is a png image without ".png" extension. It must be in 2024x2024 pixels.
-
-    * Generate specify icons for iOS
-    $ ticons -a -p ios icons `pwd`/app/assets/iphone/iTunesArtwork@2x
-
-    * Generate specify icons for Android
-    $ ticons -a -p android icons `pwd`/app/assets/android/icon.png
+    `pwd`/src/assets/images/iTunesArtwork@2x.png
+    iTunesArtwork@2x.png must be in 2024x2024 pixels.
 
 
  * Splashes
 
-    * Default behavior
-    $ ticons splashes
-    /Users/vdesdoigts/Workspace/titanium/Alloy-Bootstrap/app/assets/iphone/Default-Portrait-736h@3x.png
-
     * Custom splash
-    $ ticons -a splashes `pwd`/app/assets/splash-2024x2024.jpg --no-nine
-    You can provide a 2024x2024 pixels image to create your splashes. Be careful to center your logo. Since 0.10.0 if you give --width <width> and --height <height> then TiCons will try not to crop that area, taken from the centre of the input image.
+    $ ticons -a splashes `pwd`/src/assets/images/splash2208x2208.jpg --no-nine
+    You can provide a 2208x2208 pixels image to create your splashes. Be careful to center your logo. Since 0.10.0 if you give --width <width> and --height <height> then TiCons will try not to crop that area, taken from the centre of the input image.
 
 
  * Assets
 
-    * Default behavior
-    $ ticons assets
-    By default, TiCons will look for the best current resolution, at the moment is 'xxxhdpi' on `app/assets/android/images/`.
-    If you dont't have or need this resolution, TiCons will automatically `Skipped higher dpi: android-res-xxxhdpi` and take the images at `app/assets/iphone/images/`.
-
-    * Custom path example
-    $ ticons -a assets `pwd`/app/assets/iphone/images/
-    Sometimes we don't need the best resolution or we don't have the images.
-
-### grunt clean task
-
- * If you use iOS 3@x high resolution, add this lines (by default):
-
-    ```
-    "!app/assets/iphone/images/*@3x.png",
-    "!app/assets/iphone/images/*@3x.jpg",
-    ```
- * If you use xxxhdpi default high resolution, add this lines instead:
-
-    ```
-    "!app/assets/android/images/xxxhdpi/*.png",
-    "!app/assets/android/images/xxxhdpi/*.jpg",
-    ```
+    * Custom behavior
+    $ ticons -a assets --max-dpi xxxhdpi `pwd`/src/assets/images/xxxhdpi
 
 
 ### .gitignore config

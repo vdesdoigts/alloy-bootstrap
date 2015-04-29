@@ -1,26 +1,20 @@
 {
   "name": "alloy-bootstrap",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": "",
-  "author": "",
-  "license": "MIT",
-  "readmeFilename": "README.md",
+  "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-coffee": "~0.7.0",
-    "grunt-contrib-watch": "~0.5.1",
-    "grunt-notify": "~0.2.14",
-    "grunt-shell": "~0.5.0",
-    "grunt-stss": "^0.1.0",
-    "grunt-tishadow": "dbankier/grunt-tishadow",
-    "matchdep": "~0.3.0",
-    "ti-stealth": "*",
-    "ticons": "0.11.0"
+    "grunt": "^0.4.5",
+    "grunt-babel": "^5.0.0",
+    "grunt-concurrent": "^1.0.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-official-tishadow": "^1.2.1",
+    "grunt-shell": "^1.1.2",
+    "grunt-stss": "xavierlacot/grunt-stss",
+    "grunt-titanium": "^0.3.1",
+    "matchdep": "^0.3.0",
+    "ti-stealth": "0.0.2",
+    "ticons": "^0.12.4"
   }
 }

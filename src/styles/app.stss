@@ -1,0 +1,10 @@
+@import '_default.stss';
+
+// Global
+// -------------------------
+
+Label {
+    width: size;
+    height: size;
+    color: #000
+}
