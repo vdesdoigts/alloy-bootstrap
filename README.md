@@ -83,23 +83,27 @@ Please use the TiShadowApp in the repository with according modules and config f
 
  * Icons
 
-    * Custom behavior
-    $ ticons icons
-    `pwd`/src/assets/images/iTunesArtwork@2x.png
-    iTunesArtwork@2x.png must be in 2024x2024 pixels.
+    * Custom behavior, iTunesArtwork@2x.png must be in 1024x1024 pixels.
+    ```
+    $ ticons icons `pwd`/src/assets/images/iTunesArtwork@2x.png
+    ```
 
 
  * Splashes
 
-    * Custom splash
+    * Custom splash, you can provide a 2208x2208 pixels image to create your splashes. Be careful to center your logo. Since 0.10.0 if you give --width <width> and --height <height> then TiCons will try not to crop that area, taken from the centre of the input image.
+    ```
     $ ticons -a splashes `pwd`/src/assets/images/splash2208x2208.jpg --no-nine
-    You can provide a 2208x2208 pixels image to create your splashes. Be careful to center your logo. Since 0.10.0 if you give --width <width> and --height <height> then TiCons will try not to crop that area, taken from the centre of the input image.
+    ```
+
 
 
  * Assets
 
     * Custom behavior
+    ```
     $ ticons -a assets --max-dpi xxxhdpi `pwd`/src/assets/images/xxxhdpi
+    ```
 
 
 ### .gitignore config
