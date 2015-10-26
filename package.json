@@ -11,10 +11,10 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-official-tishadow": "^1.2.1",
     "grunt-shell": "^1.1.2",
-    "grunt-stss": "xavierlacot/grunt-stss",
+    "grunt-stss": "^0.4.0",
     "grunt-titanium": "^0.3.1",
     "matchdep": "^0.3.0",
     "ti-stealth": "0.0.2",
-    "ticons": "^0.12.4"
+    "ticons": "^0.15.4"
   }
 }
